@@ -6,3 +6,4 @@ console.dir($canvas);
 console.log(`console log of the canvas`, $canvas);
 
 game.startGame();
+game.drawGame();
