@@ -4,8 +4,10 @@ class Game {
     this.context = $canvas.getContext('2d');
   }
   startGame() {
-    //console.log('im start game and im running');
+    console.log('Im game and im running');
     this.background = new Background(this);
     this.background.drawBackground();
+    this.character = new Character(this);
+    this.character.drawCharacter();
   }
 }
