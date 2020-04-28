@@ -8,26 +8,20 @@ class Enemy {
     // randomly entre cero y el height of canvas
     //this.speed = 1;
     this.enemyWidth = 80;
-    this.enemyHeight = 120;
+    this.enemyHeight = 100;
+
+    this.enemyImage = new Image();
+    this.enemyImage.src = '../images/alien2.png';
   }
+
+  runLogic() {
+    this.x--;
+  }
+
   //Function to draw the enemy
   drawEnemy() {
-    console.log('hola soy el enemy');
-
     const context = this.game.context;
 
-    this.enemyURL = '../images/alien2.png';
-    this.enemyImage = new Image();
-    this.enemyImage.src = this.enemyURL;
-    this.enemyImage.addEventListener('load', () => {
-      context.drawImage(
-        this.enemyImage,
-        this.x,
-        this.y,
-        this.enemyWidth,
-        this.enemyHeight
-      );
-    });
     context.drawImage(
       this.enemyImage,
       this.x,
