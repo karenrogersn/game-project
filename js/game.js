@@ -2,23 +2,10 @@ class Game {
   constructor($canvas, context) {
     this.$canvas = $canvas;
     this.context = $canvas.getContext('2d');
-    //this.wight = $canvas.width;
+    //this.width = $canvas.width;
     //this.height = $canvas.height;
     this.setKeyBindings();
   }
-
-  /*createEnemy() {
-    //esta funcion crea un enemy y lo agrega al array
-    const height = this.$canvas.height;
-    const width = this.$canvas.width;
-    
-    const enemy = new Enemy(
-      game,
-      this.character.x + 20,
-      Math.floor(Math.random() * height)
-      );
-      this.enemiesArray.push(enemy);
-    }*/
 
   //Function to start game adn instantiate characters
   startGame() {
@@ -27,20 +14,17 @@ class Game {
     this.character = new Character(this);
     this.enemiesArray = [];
 
-    /*
-    for (let i = 0; i < 5; i++) {
-      const enemy = new Enemy(this);
-      this.enemiesArray.push(enemy);
-    }
-    */
-
+    //Calling function to move enemies to the left and draw the game every 3 miliseconds
     this.loop();
+    // Calling function to add enemy to enemies array
     this.createEnemyLoop();
   }
 
+  //with every iteration,runlogic runs and enemies move to the left
   runLogic() {
     for (let enemy of this.enemiesArray) {
       enemy.runLogic();
+      //console.log(enemy);
     }
   }
 
@@ -78,15 +62,15 @@ class Game {
     });
   }
 
+  // Adding enemy to enemies array
   createEnemyLoop() {
-    // Adding enemy to enemies array
     const enemy = new Enemy(this);
     this.enemiesArray.push(enemy);
 
     // Runs itself
     setTimeout(() => {
       this.createEnemyLoop();
-    }, 1500);
+    }, 5000); //adding 1 enemy to the array every 5 secs.
   }
 
   loop() {
@@ -99,7 +83,7 @@ class Game {
     // Runs itself
     setTimeout(() => {
       this.loop();
-    }, 200);
+    }, 300);
   }
 }
 
