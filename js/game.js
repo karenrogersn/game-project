@@ -5,6 +5,7 @@ class Game {
     //this.wight = $canvas.width;
     //this.height = $canvas.height;
     this.setKeyBindings();
+    //this.enemiesArray = [];
   }
 
   //function to clear the canvas
@@ -12,11 +13,26 @@ class Game {
     this.context.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
   }
 
-  //Function to start game
+  /*createEnemy() {
+    //esta funcion crea un enemy y lo agrega al array
+    const height = this.$canvas.height;
+    const width = this.$canvas.width;
+
+    const enemy = new Enemy(
+      game,
+      this.character.x + 20,
+      Math.floor(Math.random() * height)
+    );
+    this.enemiesArray.push(enemy);
+  }*/
+
+  //Function to start game adn instantiate characters
   startGame() {
     console.log('Im startGame and im running');
     this.background = new Background(this);
     this.character = new Character(this);
+    this.enemy = new Enemy(this);
+    //this.ememiesArray = new Enemy(this); // inicialización del enemy
   }
 
   //Function to draw everything
@@ -25,6 +41,14 @@ class Game {
     this.clearScreen();
     this.background.drawBackground();
     this.character.drawCharacter();
+    this.enemy.drawEnemy();
+
+    //loop para crear el array de enemies
+    /*for (let i = 0; i < this.enemiesArray.length; i++) {
+      console.log(`i is`, i);
+      this.enemiesArray[i].createEnemy();
+    }
+  */
   }
 
   //Control keys to move the character
@@ -42,12 +66,13 @@ class Game {
           this.character.moveDown();
           break;
       }
+      this.drawGame();
     });
   }
 }
 /*agregar función para establecer limites superior e inferior del cavas:
-  // if (this.y > 400) {
-this.character.drawCharacter();
+  // if (this.character.y > 400) {
+this.character.drawCharacter(); o this.character.y = 200 o algo asi 
   }
   if (this.y < 0) {
   this.character.drawCharacter();

@@ -1,8 +1,10 @@
 class Character {
   constructor(game) {
     this.game = game;
-    this.x = 30;
+    this.x = 10;
     this.y = 150;
+    this.characterWidth = 80;
+    this.characterHeight = 100;
   }
 
   //Function to draw character
@@ -16,10 +18,22 @@ class Character {
 
     this.characterImage.addEventListener('load', () => {
       //console.log('character image has loaded');
-      context.drawImage(this.characterImage, this.x, this.y, 80, 110);
+      context.drawImage(
+        this.characterImage,
+        this.x,
+        this.y,
+        this.characterWidth,
+        this.characterHeight
+      );
     });
     //console.log(`character function ended`);
-    context.drawImage(this.characterImage, this.x, this.y, 80, 110);
+    context.drawImage(
+      this.characterImage,
+      this.x,
+      this.y,
+      this.characterWidth,
+      this.characterHeight
+    );
   }
 
   //Functions to move the character
@@ -28,12 +42,10 @@ class Character {
     //const y = this.y;
     this.y -= 10;
     console.log(this.y);
-    this.game.drawGame();
   }
   moveDown() {
     //console.log(`moving down`);
     this.y += 10;
     console.log(this.y);
-    this.game.drawGame();
   }
 }
