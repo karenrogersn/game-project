@@ -5,6 +5,7 @@ class Game {
     //this.width = $canvas.width;
     //this.height = $canvas.height;
     this.setKeyBindings();
+    //this.character.drawBoundaries();
   }
 
   //Function to start game adn instantiate characters
@@ -13,6 +14,10 @@ class Game {
     this.background = new Background(this);
     this.character = new Character(this);
     this.enemiesArray = [];
+
+    //this two variables are for enemy creation control
+    this.enemyTimer = 0;
+    this.enemyTimeDiff = 5000; //this is equal to 5 seconds between each enemy
 
     //Calling function to move enemies to the left and draw the game every 3 miliseconds
     this.loop();
@@ -24,7 +29,7 @@ class Game {
   runLogic() {
     for (let enemy of this.enemiesArray) {
       enemy.runLogic();
-      //console.log(enemy);
+      enemy.checkCollisionEC(); //every enemy checks the collision itself, because they're inside loop
     }
   }
 
@@ -36,11 +41,11 @@ class Game {
   //Function to draw everything
   drawGame() {
     this.clearScreen();
-    this.background.drawBackground();
-    this.character.drawCharacter();
+    this.background.draw();
+    this.character.draw();
 
     for (let enemy of this.enemiesArray) {
-      enemy.drawEnemy();
+      enemy.draw();
     }
   }
 
@@ -61,65 +66,36 @@ class Game {
       }
     });
   }
-
   // Adding enemy to enemies array
-  createEnemyLoop() {
-    const enemy = new Enemy(this);
-    this.enemiesArray.push(enemy);
+  createEnemyLoop(timestamp) {
+    if (this.enemyTimer < timestamp - this.enemyTimeDiff) {
+      this.enemyTimer = timestamp;
+      const enemy = new Enemy(this);
+      this.enemiesArray.push(enemy);
+    }
 
     // Runs itself
+    /*
     setTimeout(() => {
       this.createEnemyLoop();
     }, 5000); //adding 1 enemy to the array every 5 secs.
+    */
   }
 
-  loop() {
-    // Runs logic
+  // Runs logic
+  loop(timestamp) {
     this.runLogic();
-
+    this.character.drawBoundaries();
+    this.createEnemyLoop(timestamp);
     // Draws to the canvas
     this.drawGame();
 
+    window.requestAnimationFrame((timestamp) => this.loop(timestamp));
     // Runs itself
+    /*
     setTimeout(() => {
       this.loop();
     }, 300);
+    */
   }
-}
-
-/*agregar función para establecer limites superior e inferior del cavas:
-  // if (this.character.y > 400) {
-this.character.drawCharacter(); o this.character.y = 200 o algo asi 
-  }
-  if (this.y < 0) {
-  this.character.drawCharacter();
-  }
-*/
-
-//Función alternativa para mover el character
-/*
-  character = {
-    //left: false,
-    //right: false,
-    up: false,
-    down: false,
-
-    keyListener: function (event) {
-      var key_state = event.type == 'keydown' ? true : false;
-
-      switch (event.keyCode) {
-        case 38: //up
-          character.up = key_state;
-          console.log(`moving up`);
-          break;
-        case 40: //down
-          character.down = key_state;
-          console.log(`moving dow`);
-          break;
-      }
-    },
-  };
-
-/*window.addEventListener('keydown', character.keyListener);
-window.addEventListener('keyup', character.keyListener)
-*/
+} //end of game class

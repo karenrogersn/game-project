@@ -1,35 +1,37 @@
 class Enemy {
   constructor(game, x, y) {
     this.game = game;
-    this.width = $canvas.width;
-    this.height = $canvas.height;
-    (this.x = this.width - 50), Math.random() * 700; //position x from the right end and ramdon positioned
-    this.y = Math.random() * 500; // randomly entre cero y el height of canvas
+    //(this.x = this.game.$canvas.width - 50), Math.random() * 700; //position x from the right end and ramdon positioned
+    this.x = this.game.$canvas.width;
+    this.y = Math.random() * 400; // randomly entre cero y el height of canvas
     //this.speed = 1;
-    this.enemyWidth = 80;
-    this.enemyHeight = 80;
+    this.width = 80;
+    this.height = 80;
 
     this.enemyImage = new Image();
     this.enemyImage.src = '../images/alien2.png';
   }
+  //Function to draw the enemy
+  draw() {
+    const context = this.game.context;
 
-  //moves the enemy to the left in every
+    context.drawImage(this.enemyImage, this.x, this.y, this.width, this.height);
+  }
+
+  //moves the enemy to <-- in every iteration
   runLogic() {
     this.x--;
   }
 
-  //Function to draw the enemy
-  drawEnemy() {
-    const context = this.game.context;
-
-    context.drawImage(
-      this.enemyImage,
-      this.x,
-      this.y,
-      this.enemyWidth,
-      this.enemyHeight
-    );
+  //Function to check enemy - character collision
+  checkCollisionEC() {
+    if (
+      this.game.character.x > this.x - this.width / 2 &&
+      this.game.character.x < this.x + this.width / 2 &&
+      this.game.character.y > this.y - this.height &&
+      this.game.character.y < this.y + this.height
+    ) {
+      console.log(`another collision`);
+    }
   }
-}
-
-//Fijar límites para los enemies en el canvas
+} //end of class enemy

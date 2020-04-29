@@ -7,11 +7,11 @@ class Background {
   }
 
   //Function to draw background
-  drawBackground() {
-    const context = this.game.context;
+  draw() {
     const width = this.game.$canvas.width;
+    const context = this.game.context;
     const height = this.game.$canvas.height;
 
     context.drawImage(this.backgroundImage, 0, 0, width, height);
   }
-}
+} //end of class background
