@@ -5,6 +5,7 @@ class Character {
     this.y = 150;
     this.width = 80;
     this.height = 90;
+    this.life = 3;
 
     this.characterURL = '../images/spaceman.png';
     this.characterImage = new Image();
@@ -26,11 +27,21 @@ class Character {
   }
 
   //Functions to move the character
+  moveLeft() {
+    //console.log(`moving left`);
+    this.x -= 10;
+  }
+
   moveUp() {
     //console.log(`moving up`);
     //const y = this.y;
     this.y -= 10;
     //console.log(this.y);
+  }
+
+  moveRight() {
+    //console.log(`moving right`);
+    this.x += 10;
   }
 
   moveDown() {
@@ -44,11 +55,11 @@ class Character {
     const canvasHeight = this.game.$canvas.height;
     if (this.y < 0) {
       this.y += 10;
-      console.log(`character off the upper limit`);
+      //console.log(`character off the upper limit`);
     }
     if (this.y >= canvasHeight - 80) {
       this.y -= 10;
-      console.log(`character off the down limit`);
+      //console.log(`character off the down limit`);
     }
   }
 } //end of class character

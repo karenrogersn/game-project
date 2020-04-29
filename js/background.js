@@ -15,3 +15,5 @@ class Background {
     context.drawImage(this.backgroundImage, 0, 0, width, height);
   }
 } //end of class background
+
+//make the background move
