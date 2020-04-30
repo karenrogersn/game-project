@@ -1,3 +1,56 @@
 body {
   font-family: 'Roboto Mono', monospace, 'sans-serif';
 }
+
+/* Buttons styling */
+
+.structure {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.space-game {
+display: flex;
+    justify-content: flex-end;
+    padding: 20px 0px;
+}
+
+.game-intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0% 5%;
+  }
+
+  #start-button{
+    cursor: pointer;
+    width: 90px;
+    height: 30px;
+    color: #FFF;
+    font-weight: 700;
+    background-color: #000;
+    border-radius: 12%;
+    box-shadow: 4px 4px 0 rgba(251, 59, 73, .2);
+
+  }
+
+  .game-intro p{
+      text-align: center;
+  }
+
+  .arrows-img {
+    width: 150px;
+    height: 150px;
+  }
+
+
+
+
+
+/*div.myButton input {
+  background: url(../images/alien2.png) no-repeat;
+  
+ 
+  border: none;
+}

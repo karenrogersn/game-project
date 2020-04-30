@@ -68,6 +68,7 @@ class Game {
   //Function to draw everything
   drawGame() {
     this.clearScreen();
+    //this.backgroundLoop();
     this.background.draw();
     this.scoreboard.draw();
 
@@ -80,6 +81,10 @@ class Game {
       gun.draw();
     }
     this.character.draw();
+
+    if (this.character.life <= 0) {
+      this.scoreboard.gameOver();
+    }
   }
 
   // Runs itself
@@ -137,6 +142,20 @@ class Game {
       window.requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
   }
-}
 
-//end of game class
+  /*
+  backgroundLoop = () => {
+    this.x--;
+    if (x < backgroundImage.width * -1) {
+      x = 0;
+    }
+    if (this.background.backgroundImage.width) {
+      this.x = this.x % this.background.backgroundImage.width;
+    }
+    //console.log(this.x);
+    this.clearScreen();
+    this.background.draw();
+    setTimeout(this.backgroundLoop, 1000 / 500);
+  };
+  */
+} //end of game class

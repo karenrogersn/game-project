@@ -14,18 +14,27 @@
 </head>
 
 <body>
-  <div id="space-game">
-    <canvas id="canvas" width="700" height="500"></canvas>
-  </div>
-  <script type="text/javascript" src="js/game.js"></script>
-  <script type="text/javascript" src="js/background.js"></script>
-  <script type="text/javascript" src="js/enemy.js"></script>
-  <script type="text/javascript" src="js/character.js"></script>
-  <script type="text/javascript" src="js/spacegun.js"></script>
-  <script type="text/javascript" src="js/scoreboard.js"></script>
-  <script type="text/javascript" src="js/script.js"></script>
-</body>
+  <div class='structure'>
+    <div class="game-intro">
+      <button id="start-button">PLAY</button><br>
+      <p>Use the arrow keys to move the spaceman, avoid the aliens and catch the guns! <br>
+      <br>
+      Every gun you catch is a life you gain. <br><br>But be careful, you'll have to move faster the longer you stay alive!
+      </p>
+      <img src="../game-project/images/gun_transparent.png" alt="" class="arrows-img" />
+    </div>
 
-</html>
+    <section class="space-game">
+      <canvas id="canvas" width="700" height="500"></canvas>
+    </section>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/background.js"></script>
+    <script type="text/javascript" src="js/enemy.js"></script>
+    <script type="text/javascript" src="js/character.js"></script>
+    <script type="text/javascript" src="js/spacegun.js"></script>
+    <script type="text/javascript" src="js/scoreboard.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+  </div>
+</body>
 
 </html>

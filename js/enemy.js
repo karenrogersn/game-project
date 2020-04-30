@@ -33,15 +33,15 @@ class Enemy {
     ) {
       console.log(`another collision`); //add result: character life -=1, display in scoreboard and add noise
       return true;
-      //this.game.scoreBoard.life--;
-      //this.loseLives();
     }
   }
 
   loseLives() {
     this.game.character.life--;
-    if (this.game.character.life <= 0) {
+    if (this.game.character.life <= 0) { //si el character perdió todas sus vidas
       this.game.gameIsRunning = false;
+
+      
       console.log(`game over`);
       
     }

@@ -36,8 +36,7 @@ class Gun {
 
   winLives() {
     this.game.character.life++;
-    //this.scoreBoard.drawWinningPts();
   }
-//add noise
-} 
+  //add noise
+}
 //end of gun class
