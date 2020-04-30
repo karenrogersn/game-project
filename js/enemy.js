@@ -31,8 +31,19 @@ class Enemy {
       this.game.character.y > this.y - this.height &&
       this.game.character.y < this.y + this.height
     ) {
-      //this.game.scoreBoard.life--;
       console.log(`another collision`); //add result: character life -=1, display in scoreboard and add noise
+      return true;
+      //this.game.scoreBoard.life--;
+      //this.loseLives();
+    }
+  }
+
+  loseLives() {
+    this.game.character.life--;
+    if (this.game.character.life <= 0) {
+      this.game.gameIsRunning = false;
+      console.log(`game over`);
+      
     }
   }
 } //end of class enemy

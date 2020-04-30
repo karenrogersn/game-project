@@ -7,23 +7,22 @@ class Game {
     this.setKeyBindings();
   }
 
-  //this.loseLives();
-
   //Function to start game adn instantiate characters
   startGame() {
+    this.gameIsRunning = true; //game starts running before anything
     //console.log('Im startGame and im running');
     this.background = new Background(this);
     this.character = new Character(this);
     this.enemiesArray = [];
     this.gunArray = [];
-    //this.losingPts = new scoreBoard(this);
+    this.scoreboard = new Scoreboard(this);
 
     //this two variables are for enemy creation control
     this.enemyTimer = 0;
-    this.enemyTimeDiff = 2000; //this is equal to 5 seconds between each enemy
+    this.enemyTimeDiff = 3000; //this is equal to 5 seconds between each enemy
 
     this.gunTimer = 0;
-    this.gunTimeDiff = 8000; //this is equal to 5 seconds between each enemy
+    this.gunTimeDiff = 7000; //this is equal to 5 seconds between each enemy
 
     //Calling function to move enemies to <-- and draw the game every 3 miliseconds
     this.loop();
@@ -35,17 +34,32 @@ class Game {
 
   //with every iteration,runlogic runs and enemies move to the left
   runLogic() {
-    for (let enemy of this.enemiesArray) {
+    for (let i = 0; i < this.enemiesArray.length; i++) {
+      const enemy = this.enemiesArray[i]; //asignando al enemy nuestro index, que es basicamente c/alien
       enemy.runLogic();
       //every enemy checks collision, because they're inside loop
-      enemy.checkCollisionEC();
-
-      //this.gun.catchingGun();
+      if (enemy.checkCollisionEC()) {
+        //every time there's a collision, character loses 1 life
+        enemy.loseLives();
+        //we erase 1 enemy
+        this.enemiesArray.splice(i, 1);
+        //and we erase replace it
+        i++;
+      }
     }
-    for (let gun of this.gunArray) {
+
+    for (let i = 0; i < this.gunArray.length; i++) {
+      const gun = this.gunArray[i];
       gun.runLogic();
+      if (gun.catchingGun()) {
+        gun.winLives();
+        console.log(`I caught a gun`);
+        this.gunArray.splice(i, 1);
+        i++;
+      }
     }
   }
+
   //function to clear the canvas
   clearScreen() {
     this.context.clearRect(0, 0, this.width, this.height);
@@ -55,35 +69,17 @@ class Game {
   drawGame() {
     this.clearScreen();
     this.background.draw();
-    this.character.draw();
-    //this.losingPts.drawLosingPts();
+    this.scoreboard.draw();
 
     //Drawing enemies
     for (let enemy of this.enemiesArray) {
       enemy.draw();
     }
-
+    //Drawing guns
     for (let gun of this.gunArray) {
       gun.draw();
     }
-
-    // this.losingPts.drawLosingPts();
-  }
-
-  //Pushing guns into the gun array
-  newGun() {
-    const gun1 = new Gun(this, Math.random() * this.width, Math.random() * 500);
-    console.log(`gun1`, gun1.x, gun1.y);
-    console.log(this.width);
-
-    const gun2 = new Gun(this, Math.random() * this.width, Math.random() * 500);
-    console.log(`gun2`, gun2.x, gun2.y);
-
-    const gun3 = new Gun(this, Math.random() * this.width, Math.random() * 500);
-    console.log(`gun3`, gun3.x, gun3.y);
-
-    //console.log(`guns being drawn`);
-    this.gunArray.push(gun1, gun2, gun3);
+    this.character.draw();
   }
 
   // Runs itself
@@ -109,6 +105,7 @@ class Game {
       }
     });
   }
+
   // Adding enemy to enemies array
   createEnemyLoop(timestamp) {
     if (this.enemyTimer < timestamp - this.enemyTimeDiff) {
@@ -118,17 +115,12 @@ class Game {
     }
   }
 
-  update(gunTimer) {
-    this.gunArray = guns;
-    this.gunArray.x;
-  }
-
-  // Adding gun to enemies array
+  // Adding gun to gun array
   createGunLoop(timestamp) {
     if (this.gunTimer < timestamp - this.gunTimeDiff) {
       this.gunTimer = timestamp;
-      this.newGun();
-      //update(this.gunTimer);
+      const gun = new Gun(this);
+      this.gunArray.push(gun);
     }
   }
 
@@ -141,19 +133,10 @@ class Game {
     // Draws to the canvas
     this.drawGame(timestamp);
 
-    window.requestAnimationFrame((timestamp) => this.loop(timestamp));
-  }
-
-  /*loseLives() {
- 
-
-  winLives(){
-    if(this.gun.catchingGun()) {
-
+    if (this.gameIsRunning) {
+      window.requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
   }
-
-  */
 }
 
 //end of game class

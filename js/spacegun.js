@@ -24,13 +24,20 @@ class Gun {
 
   catchingGun() {
     if (
-      this.game.character.x > this.x - this.width / 4 &&
-      this.game.character.x < this.x + this.width / 4 &&
+      this.game.character.x > this.x - this.width / 2 &&
+      this.game.character.x < this.x + this.width / 2 &&
       this.game.character.y > this.y - this.height &&
       this.game.character.y < this.y + this.height
     ) {
-      //this.game.scoreBoard.life--;
-      console.log(`spaceman caught a gun`); //add result: character life -=1, display in scoreboard and add noise
+      //console.log(`spacegun collision`); //add result: character life -=1, display in scoreboard and add noise
+      return true;
     }
   }
-} //end of gun class
+
+  winLives() {
+    this.game.character.life++;
+    //this.scoreBoard.drawWinningPts();
+  }
+//add noise
+} 
+//end of gun class
