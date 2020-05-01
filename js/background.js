@@ -4,19 +4,9 @@ class Background {
     this.x = 0;
 
     this.backgroundImage = new Image();
-    this.backgroundImage.src = '../images/background/nebula03.png';
+    this.backgroundImage.src =
+      '../images/background/space-background-deiland.jpg';
   }
-
-  //Function to draw background
-  /*
-  draw() {
-    const width = this.game.$canvas.width;
-    const context = this.game.context;
-    const height = this.game.$canvas.height;
-
-    context.drawImage(this.backgroundImage, 0, 0, width, height);
-  }
-  */
 
   //Drawing the background and making it move
 

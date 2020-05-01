@@ -23,7 +23,11 @@ class Game {
     this.enemyTimeDiff = 2000; //this is equal to 2 seconds between each enemy
 
     this.gunTimer = 0;
-    this.gunTimeDiff = 7000; //this is equal to 5 seconds between each enemy
+    this.gunTimeDiff = 4000; // 4 seconds between each gun
+
+    this.enemySpeedTimer = 0;
+    this.enemySpeedDiff = 5000; //5 seconds between the alien speed up
+    this.speed = 0;
 
     //Calling function to move enemies to <-- and draw the game every 3 miliseconds
     this.loop();
@@ -31,6 +35,8 @@ class Game {
     this.createEnemyLoop();
     //Calling function to create 4 guns every 8 seconds
     this.createGunLoop();
+    this.characterLoop();
+    console.log(`moving`);
   }
 
   //with every iteration,runlogic runs and enemies move to the left
@@ -38,7 +44,6 @@ class Game {
     for (let i = 0; i < this.enemiesArray.length; i++) {
       const enemy = this.enemiesArray[i]; //asignando al enemy nuestro index, que es basicamente c/alien
       enemy.runLogic();
-      enemy.runLogicSpeep();
       //every enemy checks collision, because they're inside loop
       if (enemy.checkCollisionEC()) {
         //every time there's a collision, character loses 1 life
@@ -125,22 +130,34 @@ class Game {
   createEnemyLoop(timestamp) {
     if (this.enemyTimer < timestamp - this.enemyTimeDiff) {
       this.enemyTimer = timestamp;
-      const enemy = new Enemy(this);
+      const enemy = new Enemy(this, this.speed);
       this.enemiesArray.push(enemy);
+    }
+  }
+
+  addSpeed(timestamp) {
+    if (this.enemySpeedTimer < timestamp - this.enemySpeedDiff) {
+      //console.log('speed increased');
+      this.enemySpeedTimer = timestamp;
+      this.speed += 0.3;
     }
   }
 
   // Adding gun to gun array
   createGunLoop(timestamp) {
     if (this.gunTimer < timestamp - this.gunTimeDiff) {
+      console.log('im running');
       this.gunTimer = timestamp;
       const gun = new Gun(this);
       this.gunArray.push(gun);
+      console.log(this.gunArray);
     }
   }
 
   // Runs logic
   loop(timestamp) {
+    this.addSpeed(timestamp);
+    this.character.movingCharacter();
     this.runLogic();
     this.character.drawBoundaries();
     this.createEnemyLoop(timestamp);

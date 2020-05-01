@@ -1,10 +1,10 @@
 class Enemy {
-  constructor(game, x, y) {
+  constructor(game, speed) {
     this.game = game;
     //(this.x = this.game.$canvas.width - 50), Math.random() * 700; //position x from the right end and ramdon positioned
     this.x = this.game.$canvas.width;
     this.y = Math.random() * 400;
-    this.speed = 1;
+    this.speed = speed;
     this.width = 80;
     this.height = 80;
 
@@ -20,13 +20,13 @@ class Enemy {
 
   //moves the enemy to <-- in every iteration
   runLogic() {
-    this.x--;
+    this.x -= this.speed;
   }
 
-  runLogicSpeep() {
+  /*runLogicSpeep() {
     this.x -= this.speed;
     console.log(`${this.speed} speed`);
-  }
+  }*/
 
   //Function to check enemy - character collision
   checkCollisionEC() {

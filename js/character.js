@@ -6,7 +6,9 @@ class Character {
     this.width = 80;
     this.height = 90;
     this.life = 3;
-    this.speed = 2;
+    this.speedY = 1;
+    this.speedX = 1;
+    this.friction = 10;
 
     this.characterURL = '../images/spaceman.png';
     this.characterImage = new Image();
@@ -17,15 +19,7 @@ class Character {
   draw() {
     //console.log(`Im the character and Im running`);
     const context = this.game.context;
-    /*
-    this.game.context.save();
-    const angle = (45 * Math.PI) / 180;
-    const opositeAngle = Math.PI / 2 - angle;
-    this.game.context.rotate(angle);
-    const y = Math.sin(opositeAngle) / this.y;
-    const x = Math.cos(opositeAngle) / this.x;
-    this.game.context.restore();
-    */
+
     context.drawImage(
       this.characterImage,
       this.x,
@@ -38,25 +32,75 @@ class Character {
   //Functions to move the character
   moveLeft() {
     //console.log(`moving left`);
-    this.x -= 10;
+    this.speedX -= 5;
   }
 
   moveUp() {
     //console.log(`moving up`);
-    //const y = this.y;
-    this.y -= 10;
+    this.speedY -= 5;
     //console.log(this.y);
   }
 
   moveRight() {
     //console.log(`moving right`);
-    this.x += 10;
+    this.speedX += 5;
   }
 
   moveDown() {
     //console.log(`moving down`);
-    this.y += 10;
+    this.speedY += 5;
     //console.log(this.y);
+  }
+
+  movingCharacter() {
+    const x = this.x;
+    const y = this.y;
+    const speedX = this.speedX;
+    const speedY = this.speedY;
+    const friction = this.friction;
+
+    let newVelocityX = speedX / (1 + (friction / 1000) * 16);
+    let newVelocityY = speedY / (1 + (friction / 1000) * 16);
+
+    let newPositionX = x + newVelocityX;
+    let newPositionY = y + newVelocityY;
+
+    if (this.checkBoundariesY()) {
+      //my character is going outside the canvas in the Y direction
+      newPositionY = this.y;
+      newVelocityY = 0;
+    }
+
+    if (this.checkBoundariesX()) {
+      //my character is going outside the canvas in the Y direction
+      newPositionX = this.x;
+      newVelocityX = 0;
+    }
+
+    this.speedX = newVelocityX;
+    this.speedY = newVelocityY;
+    this.x = newPositionX;
+    this.y = newPositionY;
+  }
+
+  checkBoundariesY() {
+    const canvasHeight = this.game.$canvas.height;
+    if (
+      this.y + this.speedY <= 0 ||
+      this.y + this.height + this.speedY >= canvasHeight
+    ) {
+      return true;
+    }
+  }
+
+  checkBoundariesX() {
+    const canvasWidth = this.game.$canvas.width;
+    if (
+      this.x + this.speedX <= 0 ||
+      this.x + this.width + this.speedX >= canvasWidth
+    ) {
+      return true;
+    }
   }
 
   //Function to create canvas boundaries for character
@@ -72,7 +116,7 @@ class Character {
     }
 
     if (this.x < 0) {
-      this.x += 2;
+      this.x += 1;
     }
   }
 } //end of class character

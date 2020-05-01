@@ -6,7 +6,7 @@ class Scoreboard {
   draw() {
     const context = this.game.context;
     const life = this.game.character.life;
-    console.log(life);
+    //console.log(life);
     context.fillStyle = 'white';
     context.font = '13px Roboto Mono, sans-serif';
     context.fillText(`you have ${life} lives`, 25, 480);
