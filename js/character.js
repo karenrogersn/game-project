@@ -2,10 +2,11 @@ class Character {
   constructor(game) {
     this.game = game;
     this.x = 10;
-    this.y = 150;
+    this.y = 200;
     this.width = 80;
     this.height = 90;
     this.life = 3;
+    this.speed = 2;
 
     this.characterURL = '../images/spaceman.png';
     this.characterImage = new Image();
@@ -16,7 +17,15 @@ class Character {
   draw() {
     //console.log(`Im the character and Im running`);
     const context = this.game.context;
-
+    /*
+    this.game.context.save();
+    const angle = (45 * Math.PI) / 180;
+    const opositeAngle = Math.PI / 2 - angle;
+    this.game.context.rotate(angle);
+    const y = Math.sin(opositeAngle) / this.y;
+    const x = Math.cos(opositeAngle) / this.x;
+    this.game.context.restore();
+    */
     context.drawImage(
       this.characterImage,
       this.x,
@@ -60,6 +69,10 @@ class Character {
     if (this.y >= canvasHeight - 80) {
       this.y -= 10;
       //console.log(`character off the down limit`);
+    }
+
+    if (this.x < 0) {
+      this.x += 2;
     }
   }
 } //end of class character

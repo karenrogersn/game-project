@@ -3,7 +3,7 @@ class Gun {
     this.game = game;
     this.x = this.game.$canvas.width;
     this.y = Math.random() * 400;
-    //this.speed = 1;
+    this.speed = 2;
     this.width = 40;
     this.height = 30;
 
@@ -24,8 +24,8 @@ class Gun {
 
   catchingGun() {
     if (
-      this.game.character.x > this.x - this.width / 2 &&
-      this.game.character.x < this.x + this.width / 2 &&
+      this.game.character.x > this.x - this.width &&
+      this.game.character.x < this.x + this.width &&
       this.game.character.y > this.y - this.height &&
       this.game.character.y < this.y + this.height
     ) {

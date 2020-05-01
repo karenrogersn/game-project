@@ -18,4 +18,8 @@ class Scoreboard {
     context.font = '30px Roboto Mono, sans-serif';
     context.fillText(`GAME OVER!`, 250, 250);
   }
+
+
+
+
 } //end of scoreboard class

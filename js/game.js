@@ -2,6 +2,7 @@ class Game {
   constructor($canvas, context) {
     this.$canvas = $canvas;
     this.context = $canvas.getContext('2d');
+
     this.width = $canvas.width;
     this.height = $canvas.height;
     this.setKeyBindings();
@@ -10,7 +11,7 @@ class Game {
   //Function to start game adn instantiate characters
   startGame() {
     this.gameIsRunning = true; //game starts running before anything
-    //console.log('Im startGame and im running');
+    gameMusic.play();
     this.background = new Background(this);
     this.character = new Character(this);
     this.enemiesArray = [];
@@ -19,7 +20,7 @@ class Game {
 
     //this two variables are for enemy creation control
     this.enemyTimer = 0;
-    this.enemyTimeDiff = 3000; //this is equal to 5 seconds between each enemy
+    this.enemyTimeDiff = 2000; //this is equal to 2 seconds between each enemy
 
     this.gunTimer = 0;
     this.gunTimeDiff = 7000; //this is equal to 5 seconds between each enemy
@@ -37,10 +38,12 @@ class Game {
     for (let i = 0; i < this.enemiesArray.length; i++) {
       const enemy = this.enemiesArray[i]; //asignando al enemy nuestro index, que es basicamente c/alien
       enemy.runLogic();
+      enemy.runLogicSpeep();
       //every enemy checks collision, because they're inside loop
       if (enemy.checkCollisionEC()) {
         //every time there's a collision, character loses 1 life
         enemy.loseLives();
+        alienSound.play();
         //we erase 1 enemy
         this.enemiesArray.splice(i, 1);
         //and we erase replace it
@@ -52,12 +55,16 @@ class Game {
       const gun = this.gunArray[i];
       gun.runLogic();
       if (gun.catchingGun()) {
+        gunSound.play();
         gun.winLives();
         console.log(`I caught a gun`);
         this.gunArray.splice(i, 1);
         i++;
       }
     }
+
+    //Makes the background move to rhe left
+    this.background.runLogic();
   }
 
   //function to clear the canvas
@@ -67,23 +74,26 @@ class Game {
 
   //Function to draw everything
   drawGame() {
-    this.clearScreen();
-    //this.backgroundLoop();
-    this.background.draw();
-    this.scoreboard.draw();
+    if (this.gameIsRunning) {
+      this.clearScreen();
+      this.background.draw();
+      this.scoreboard.draw();
 
-    //Drawing enemies
-    for (let enemy of this.enemiesArray) {
-      enemy.draw();
+      //Drawing enemies
+      for (let enemy of this.enemiesArray) {
+        enemy.draw();
+      }
+      //Drawing guns
+      for (let gun of this.gunArray) {
+        gun.draw();
+      }
+      this.character.draw();
     }
-    //Drawing guns
-    for (let gun of this.gunArray) {
-      gun.draw();
-    }
-    this.character.draw();
-
+    //If you lose, "game over" is displayed
     if (this.character.life <= 0) {
       this.scoreboard.gameOver();
+      gameMusic.pause();
+      gameOverSound.play();
     }
   }
 
@@ -142,20 +152,18 @@ class Game {
       window.requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
   }
-
-  /*
-  backgroundLoop = () => {
-    this.x--;
-    if (x < backgroundImage.width * -1) {
-      x = 0;
-    }
-    if (this.background.backgroundImage.width) {
-      this.x = this.x % this.background.backgroundImage.width;
-    }
-    //console.log(this.x);
-    this.clearScreen();
-    this.background.draw();
-    setTimeout(this.backgroundLoop, 1000 / 500);
-  };
-  */
 } //end of game class
+
+//Sounds
+const gameOverSound = new Audio(
+  '../sounds/325412__satchdev__astronaut-says-game-over.mp3'
+);
+
+const alienSound = new Audio(
+  '../sounds/Alien__bananplyte__attack-3-the-ridge-host.wav'
+);
+
+const gunSound = new Audio('../sounds/66807__dj-burnham__laser-shot-1.mp3');
+
+const gameMusic = new Audio('../sounds/alienxxx__raven-1-loop.wav');
+gameMusic.loop = true;

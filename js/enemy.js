@@ -4,7 +4,7 @@ class Enemy {
     //(this.x = this.game.$canvas.width - 50), Math.random() * 700; //position x from the right end and ramdon positioned
     this.x = this.game.$canvas.width;
     this.y = Math.random() * 400;
-    //this.speed = 1;
+    this.speed = 1;
     this.width = 80;
     this.height = 80;
 
@@ -23,11 +23,16 @@ class Enemy {
     this.x--;
   }
 
+  runLogicSpeep() {
+    this.x -= this.speed;
+    console.log(`${this.speed} speed`);
+  }
+
   //Function to check enemy - character collision
   checkCollisionEC() {
     if (
-      this.game.character.x > this.x - this.width / 2 &&
-      this.game.character.x < this.x + this.width / 2 &&
+      this.game.character.x > this.x - this.width / 3 &&
+      this.game.character.x < this.x + this.width / 3 &&
       this.game.character.y > this.y - this.height &&
       this.game.character.y < this.y + this.height
     ) {
@@ -38,12 +43,11 @@ class Enemy {
 
   loseLives() {
     this.game.character.life--;
-    if (this.game.character.life <= 0) { //si el character perdió todas sus vidas
+    if (this.game.character.life <= 0) {
+      //si el character perdió todas sus vidas
       this.game.gameIsRunning = false;
 
-      
       console.log(`game over`);
-      
     }
   }
 } //end of class enemy
